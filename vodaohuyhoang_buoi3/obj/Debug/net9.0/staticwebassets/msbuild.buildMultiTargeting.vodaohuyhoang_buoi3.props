@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\build\vodaohuyhoang_buoi3.props" />
+</Project>

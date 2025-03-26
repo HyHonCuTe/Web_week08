@@ -1,0 +1,34 @@
+﻿@{
+    ViewData["Title"] = "Admin Page";
+    var userName = User.Identity?.Name ?? "Guest";
+}
+
+<div class="container mt-5">
+    <div class="text-center">
+        <h1 class="lead">Welcome, <strong>@userName</strong></span></h1>
+    </div>
+
+    <div class="row justify-content-center mt-4">
+        <div class="col-md-4">
+            <div class="card shadow">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Manage Products</h5>
+                    <button class="btn btn-success w-100" onclick="location.href='@Url.Action("Index", "Products", new { area = "Admin" })'">
+                        Go to Products
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card shadow">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Manage Categories</h5>
+                    <button class="btn btn-info w-100" onclick="location.href='@Url.Action("Index", "Categories", new { area = "Admin" })'">
+                        Go to Categories
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
