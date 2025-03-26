@@ -1,5 +1,4 @@
 ﻿@using Microsoft.AspNetCore.Identity
-
 @inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
 
@@ -38,6 +37,7 @@
 <nav class="navbar navbar-expand-lg custom-navbar">
     <div class="container">
         <a class="navbar-brand text-white fw-bold" asp-area="" asp-controller="Home" asp-action="Index">
+            🌟 MyShop
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
                 aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -45,6 +45,17 @@
         </button>
         <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
             <ul class="navbar-nav">
+                <!-- Giỏ hàng -->
+                <li class="nav-item me-3">
+                    <a class="nav-link position-relative" asp-area="Admin" asp-controller="Cart" asp-action="Index">
+                        🛒
+                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                            @await Component.InvokeAsync("CartSummary")
+                        </span>
+                    </a>
+                </li>
+
+
                 @if (SignInManager.IsSignedIn(User))
                 {
                     <li class="nav-item d-flex align-items-center me-3">

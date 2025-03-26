@@ -136,5 +136,128 @@ namespace vodaohuyhoang_buoi3.Areas.Admin.Controllers
         {
             return _context.Products.Any(e => e.Id == id);
         }
+
+
+
+
+
+        //[HttpGet]
+        //public async Task<IActionResult> Search(string keyword, int page = 1, int pageSize = 5)
+        //{
+        //    // Nếu không có keyword, trả về toàn bộ sản phẩm với phân trang
+        //    if (string.IsNullOrWhiteSpace(keyword))
+        //    {
+        //        var allProducts = await _context.Products
+        //            .Include(p => p.Category)
+        //            .OrderBy(p => p.Id)
+        //            .Skip((page - 1) * pageSize)
+        //            .Take(pageSize)
+        //            .ToListAsync();
+
+        //        var totalItems = await _context.Products.CountAsync();
+        //        ViewBag.CurrentPage = page;
+        //        ViewBag.PageSize = pageSize;
+        //        ViewBag.TotalPages = (int)Math.Ceiling((double)totalItems / pageSize);
+        //        ViewBag.SearchKeyword = "";
+        //        ViewBag.SearchResultCount = totalItems;
+        //        return View("Index", allProducts);
+        //    }
+
+        //    // Chuẩn hóa keyword: loại bỏ khoảng trắng thừa và chuyển về chữ thường
+        //    var searchTerm = keyword.Trim().ToLower();
+        //    // Tách thành các từ riêng lẻ nếu có khoảng trắng
+        //    var searchTerms = searchTerm.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+
+        //    // Xây dựng truy vấn cơ bản
+        //    var query = _context.Products
+        //        .Include(p => p.Category)
+        //        .AsQueryable();
+
+        //    // Áp dụng điều kiện tìm kiếm cho từng từ
+        //    foreach (var term in searchTerms)
+        //    {
+        //        query = query.Where(p =>
+        //            (p.Name != null && p.Name.ToLower().Contains(term)) ||
+        //            (p.Description != null && p.Description.ToLower().Contains(term)));
+        //    }
+
+        //    // Đếm tổng số kết quả
+        //    var totalSearchItems = await query.CountAsync();
+
+        //    // Lấy danh sách sản phẩm với phân trang
+        //    var results = await query
+        //        .OrderBy(p => p.Id)
+        //        .Skip((page - 1) * pageSize)
+        //        .Take(pageSize)
+        //        .ToListAsync();
+
+        //    // Thiết lập thông tin cho view
+        //    ViewBag.CurrentPage = page;
+        //    ViewBag.PageSize = pageSize;
+        //    ViewBag.TotalPages = (int)Math.Ceiling((double)totalSearchItems / pageSize);
+        //    ViewBag.SearchKeyword = keyword;
+        //    ViewBag.SearchResultCount = totalSearchItems;
+
+        //    return View("Index", results);
+        //}
+
+        [HttpGet]
+        public async Task<IActionResult> Search(string keyword, int page = 1, int pageSize = 5)
+        {
+            // Nếu không có keyword, trả về toàn bộ sản phẩm với phân trang
+            if (string.IsNullOrWhiteSpace(keyword))
+            {
+                var allProducts = await _context.Products
+                    .Include(p => p.Category)
+                    .OrderBy(p => p.Id)
+                    .Skip((page - 1) * pageSize)
+                    .Take(pageSize)
+                    .ToListAsync();
+
+                var totalItems = await _context.Products.CountAsync();
+                ViewBag.CurrentPage = page;
+                ViewBag.PageSize = pageSize;
+                ViewBag.TotalPages = (int)Math.Ceiling((double)totalItems / pageSize);
+                ViewBag.SearchKeyword = "";
+                ViewBag.SearchResultCount = totalItems;
+                return View("Index", allProducts);
+            }
+
+            // Chuẩn hóa keyword
+            var searchTerm = keyword.Trim().ToLower();
+            var searchTerms = searchTerm.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+
+            // Xây dựng truy vấn
+            var query = _context.Products
+                .Include(p => p.Category)
+                .AsQueryable();
+
+            foreach (var term in searchTerms)
+            {
+                query = query.Where(p =>
+                    (p.Name != null && p.Name.ToLower().Contains(term)) ||
+                    (p.Description != null && p.Description.ToLower().Contains(term)));
+            }
+
+            // Đếm tổng số kết quả
+            var totalSearchItems = await query.CountAsync();
+
+            // Lấy danh sách sản phẩm
+            var results = await query
+                .OrderBy(p => p.Id)
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
+
+            // Thiết lập thông tin cho view
+            ViewBag.CurrentPage = page;
+            ViewBag.PageSize = pageSize;
+            ViewBag.TotalPages = (int)Math.Ceiling((double)totalSearchItems / pageSize);
+            ViewBag.SearchKeyword = keyword;
+            ViewBag.SearchResultCount = totalSearchItems;
+
+            return View("Index", results);
+        }
+
     }
 }

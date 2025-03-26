@@ -1,0 +1,7 @@
+﻿@* @model List<CartItem>
+
+<div class="cart-summary">
+    <h4>Giỏ hàng (@Model.Count)</h4>
+    <p>Tổng: @Model.Sum(item => item.Total).ToString("C")</p>
+    <a asp-controller="Cart" asp-action="Index" class="btn btn-primary btn-sm">Xem giỏ hàng</a>
+</div> *@

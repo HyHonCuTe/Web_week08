@@ -1,0 +1,9 @@
+﻿@* @model List<CartItem>
+
+<h2>Thanh toán</h2>
+
+<p>Tổng tiền: @Model.Sum(item => item.Total).ToString("C")</p>
+<p>Vui lòng quét mã QR để thanh toán:</p>
+<img src="@ViewBag.QRCodeUrl" alt="QR Code" style="max-width: 200px;" />
+
+<a asp-controller="Cart" asp-action="Index" class="btn btn-primary">Quay lại giỏ hàng</a> *@

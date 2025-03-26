@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "E:\\Study\\Html\\BE\\week8\\Web_week08\\vodaohuyhoang_buoi3\\vodaohuyhoang_buoi3.csproj": {}
+    "D:\\Catullus\\Sitio Web\\Buoi8\\Web_week08\\vodaohuyhoang_buoi3\\vodaohuyhoang_buoi3.csproj": {}
   },
   "projects": {
-    "E:\\Study\\Html\\BE\\week8\\Web_week08\\vodaohuyhoang_buoi3\\vodaohuyhoang_buoi3.csproj": {
+    "D:\\Catullus\\Sitio Web\\Buoi8\\Web_week08\\vodaohuyhoang_buoi3\\vodaohuyhoang_buoi3.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "E:\\Study\\Html\\BE\\week8\\Web_week08\\vodaohuyhoang_buoi3\\vodaohuyhoang_buoi3.csproj",
+        "projectUniqueName": "D:\\Catullus\\Sitio Web\\Buoi8\\Web_week08\\vodaohuyhoang_buoi3\\vodaohuyhoang_buoi3.csproj",
         "projectName": "vodaohuyhoang_buoi3",
-        "projectPath": "E:\\Study\\Html\\BE\\week8\\Web_week08\\vodaohuyhoang_buoi3\\vodaohuyhoang_buoi3.csproj",
-        "packagesPath": "C:\\Users\\VO DAO HUY HOANG\\.nuget\\packages\\",
-        "outputPath": "E:\\Study\\Html\\BE\\week8\\Web_week08\\vodaohuyhoang_buoi3\\obj\\",
+        "projectPath": "D:\\Catullus\\Sitio Web\\Buoi8\\Web_week08\\vodaohuyhoang_buoi3\\vodaohuyhoang_buoi3.csproj",
+        "packagesPath": "C:\\Users\\oggyk\\.nuget\\packages\\",
+        "outputPath": "D:\\Catullus\\Sitio Web\\Buoi8\\Web_week08\\vodaohuyhoang_buoi3\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\VO DAO HUY HOANG\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\oggyk\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -26,6 +26,7 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -100,7 +101,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.201/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.202/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

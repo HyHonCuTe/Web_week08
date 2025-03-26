@@ -5,6 +5,25 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+@* <form asp-action="Search" asp-controller="Products" method="get" class="d-flex mb-3">
+    <input type="text" name="keyword" value="@ViewBag.SearchKeyword" class="form-control me-2" placeholder="Tìm sản phẩm...">
+    <button type="submit" class="btn btn-primary">Tìm</button>
+</form> *@
+
+@* <form asp-action="Search" asp-controller="Products" method="get" class="d-flex mb-3">
+    <input type="text" name="keyword" value="@ViewBag.SearchKeyword"
+           class="form-control me-2" placeholder="Tìm sản phẩm..."
+           id="searchInput" />
+    <button type="submit" class="btn btn-primary">Tìm</button>
+</form> *@
+
+<form asp-action="Search" asp-controller="Products" method="get" class="d-flex mb-3" id="searchForm">
+    <input type="text" name="keyword" value="@ViewBag.SearchKeyword"
+           class="form-control me-2" placeholder="Tìm sản phẩm..." id="searchInput" />
+    <input type="hidden" name="cursorPosition" id="cursorPosition" value="@(ViewBag.CursorPosition ?? 0)" />
+    <button type="submit" class="btn btn-primary">Tìm</button>
+</form>
+
 <div class="container mt-4">
     <div class="d-flex justify-content-between align-items-center mb-3">
         <h1 class="text-primary">Danh sách sản phẩm</h1>
@@ -17,10 +36,15 @@
         }
     </div>
 
+    @if (ViewBag.SearchKeyword != null && ViewBag.SearchKeyword != "" && ViewBag.SearchResultCount > 0)
+    {
+        <p class="text-muted mb-3">Tìm thấy @ViewBag.SearchResultCount sản phẩm cho từ khóa "@ViewBag.SearchKeyword"</p>
+    }
+
     @if (!Model.Any())
     {
         <div class="alert alert-warning text-center" role="alert">
-            Hiện chưa có sản phẩm nào trong hệ thống!
+            @(ViewBag.SearchKeyword != "" ? "Không tìm thấy sản phẩm nào phù hợp!" : "Hiện chưa có sản phẩm nào trong hệ thống!")
         </div>
     }
     else
@@ -51,14 +75,12 @@
                             <td>@Html.DisplayFor(modelItem => item.Category.Name)</td>
                             <td>
                                 <div class="btn-group">
-                                    <!-- Nút Xem Chi Tiết: Hiển thị cho tất cả -->
                                     <a href="@Url.Action("Details", "Products", new { id = item.Id })" class="btn btn-info btn-sm">
                                         <i class="bi bi-eye"></i> Chi Tiết
                                     </a>
 
                                     @if (User.IsInRole("Admin") || User.IsInRole("Employee"))
                                     {
-                                        <!-- Nút Chỉnh Sửa: Chỉ Admin & Employee -->
                                         <a href="@Url.Action("Edit", "Products", new { id = item.Id })" class="btn btn-warning btn-sm">
                                             <i class="bi bi-pencil-square"></i> Sửa
                                         </a>
@@ -66,11 +88,14 @@
 
                                     @if (User.IsInRole("Admin"))
                                     {
-                                        <!-- Nút Xóa: Chỉ Admin -->
                                         <a href="@Url.Action("Delete", "Products", new { id = item.Id })" class="btn btn-danger btn-sm">
                                             <i class="bi bi-trash"></i> Xoá
                                         </a>
                                     }
+                                    <a href="@Url.Action("AddToCart", "Cart", new { productId = item.Id, productName = item.Name, price = item.Price, quantity = 1 })"
+                                       class="btn btn-primary btn-eye">
+                                        <i class="bi bi-cart-plus"></i> Thêm vào giỏ
+                                    </a>
                                 </div>
                             </td>
                         </tr>
@@ -80,3 +105,82 @@
         </div>
     }
 </div>
+
+@if (ViewBag.TotalPages > 1)
+{
+    <nav>
+        <ul class="pagination justify-content-center">
+            <!-- Nút Previous -->
+            @if (ViewBag.CurrentPage > 1)
+            {
+                <li class="page-item">
+                    <a class="page-link"
+                       asp-action="Search"
+                       asp-route-keyword="@ViewBag.SearchKeyword"
+                       asp-route-page="@(ViewBag.CurrentPage - 1)">Previous</a>
+                </li>
+            }
+
+            <!-- Các trang -->
+            @for (int i = 1; i <= (int)ViewBag.TotalPages; i++)
+            {
+                <li class="page-item @(i == ViewBag.CurrentPage ? "active" : "")">
+                    <a class="page-link"
+                       asp-action="Search"
+                       asp-route-keyword="@ViewBag.SearchKeyword"
+                       asp-route-page="@i">@i</a>
+                </li>
+            }
+
+            <!-- Nút Next -->
+            @if (ViewBag.CurrentPage < ViewBag.TotalPages)
+            {
+                <li class="page-item">
+                    <a class="page-link"
+                       asp-action="Search"
+                       asp-route-keyword="@ViewBag.SearchKeyword"
+                       asp-route-page="@(ViewBag.CurrentPage + 1)">Next</a>
+                </li>
+            }
+        </ul>
+    </nav>
+}
+
+<script>
+
+
+    @* let timeout;
+    const searchInput = document.getElementById('searchInput');
+    const searchForm = document.getElementById('searchForm');
+
+    // Gửi form sau khi nhập, không cần lưu vị trí con trỏ
+    searchInput.addEventListener('keyup', function() {
+        clearTimeout(timeout);
+        timeout = setTimeout(() => searchForm.submit(), 300);
+    });
+
+    // Đặt con trỏ ở cuối chuỗi sau khi trang tải lại
+    window.onload = function() {
+        searchInput.focus(); // Đưa focus vào ô input
+        const keywordLength = searchInput.value.length; // Lấy độ dài chuỗi
+        searchInput.setSelectionRange(keywordLength, keywordLength); // Đặt con trỏ ở cuối
+    }; *@
+    let timeout;
+    const searchInput = document.getElementById('searchInput');
+    const searchForm = document.getElementById('searchForm');
+
+    // Gửi form sau khi nhập, không cần lưu vị trí con trỏ
+    searchInput.addEventListener('keyup', function() {
+        clearTimeout(timeout);
+        timeout = setTimeout(() => searchForm.submit(), 300);
+    });
+
+    // Đặt con trỏ ở đầu chuỗi sau khi trang tải lại
+    window.onload = function() {
+        searchInput.focus(); // Đưa focus vào ô input
+        @* searchInput.setSelectionRange(0, 0); // Đặt con trỏ ở đầu chuỗi *@
+        searchInput.selectionStart = searchInput.selectionEnd = searchInput.value.length;
+
+    };
+
+</script>
